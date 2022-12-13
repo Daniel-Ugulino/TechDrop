@@ -1,0 +1,4 @@
+P;Daniel;12323213;20;RJ;123456;compra de perifericos;cartão;
+H;0;Redragon;Zeus;1;350;cable;true;Surround;baixa;alta;sim
+M;1;Redragon;Cobra;1;150;cable;true;10000;8;250;
+T;2;Redragon;Mitra;1;250;cable;true;mecanico;brown;full

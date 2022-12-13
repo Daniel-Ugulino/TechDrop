@@ -1,5 +1,7 @@
 package domain;
 
+import execptions.ClienteException;
+
 public class Cliente {
 
     private String nome;
@@ -8,7 +10,27 @@ public class Cliente {
     private String endereco;
     private String cep;
 
-    public Cliente(String nome,String cpf,Integer idade,String endereco,String cep){
+    public Cliente(String nome,String cpf,Integer idade,String endereco,String cep) throws ClienteException {
+        if(nome == "") {
+            throw new ClienteException("O nome do cliente deve ser preenchido!");
+        }
+
+        if(idade == 0) {
+            throw new ClienteException("A idade do cliente deve ser preenchido!");
+        }
+
+        if(cpf == "") {
+            throw new ClienteException("O cpf do cliente deve ser preenchido!");
+        }
+
+        if(endereco == "") {
+            throw new ClienteException("O endereco do cliente deve ser preenchido!");
+        }
+
+        if(cep == "") {
+            throw new ClienteException("O cep do cliente deve ser preenchido!");
+        }
+
         this.nome = nome;
         this.cpf = cpf;
         this.idade = idade;
@@ -22,13 +44,13 @@ public class Cliente {
         sb.append("Cliente\n");
         sb.append("Nome: ");
         sb.append(nome);
-        sb.append(" | Cpf: ");
+        sb.append(" | Cpf:");
         sb.append(cpf);
-        sb.append(" | Idade: ");
+        sb.append(" | Idade:");
         sb.append(idade);
-        sb.append(" | Endereço: ");
+        sb.append(" | Endereço:");
         sb.append(endereco);
-        sb.append(" | Cep: ");
+        sb.append(" | Cep:");
         sb.append(cep);
         return sb.toString();
     }

@@ -1,5 +1,8 @@
 package domain;
 
+import execptions.DescontoException;
+import execptions.ProdutoException;
+
 public class Headset extends Produto {
 
     private String som;
@@ -9,22 +12,57 @@ public class Headset extends Produto {
     private String cancelamentoRuido;
 
 
-    public Headset(Integer codigo) {
-        super(codigo);
+    public Headset(Integer codigo, Float valor, Integer quantidade) throws ProdutoException {
+        super(codigo,valor,quantidade);
     }
-
     public String toString() {
-        return String.format("\nHeadset\n%sEspecificações: \nSom: %s | Frquencia: %s | Sensibilidade do Microfone: %s | Cancelamento de Ruido: %s\n",
-                super.toString(),som,frequencia,sensibilidade,cancelamentoRuido
-        );
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nHeadset\n");
+        sb.append(super.toString());
+        sb.append("\nEspecificações: ");
+        sb.append("\nSom: ");
+        sb.append(som);
+        sb.append(" | Frequencia: ");
+        sb.append(frequencia);
+        sb.append(" | Sensibilidade do Microfone: ");
+        sb.append(sensibilidade);
+        sb.append(" | Cancelamento de Ruido: ");
+        sb.append(cancelamentoRuido);
+        sb.append("\n");
+        return sb.toString();
     }
 
     public void imprimir_pedido(){
         System.out.printf(String.valueOf(this));
     }
 
-    public float calcularDesconto(Integer desconto){
-        return 0f;
+    public float calcularDesconto() throws DescontoException {
+        Float desconto = 0f;
+
+        if(som == "" || frequencia == "" || sensibilidade == "" || cancelamentoRuido == ""){
+            throw new DescontoException("Não é possivel gerar desconto, os campos estão invalidos");
+        }
+
+        if(som.equalsIgnoreCase("Stereo"))
+        {
+            desconto += 10;
+        }
+        if(frequencia.equalsIgnoreCase("baixa"))
+        {
+            desconto += 10;
+        }
+        if(sensibilidade.equalsIgnoreCase("alta"))
+        {
+            desconto += 10;
+        }
+        if(cancelamentoRuido.equalsIgnoreCase("Não"))
+        {
+            desconto += 10;
+        }
+        Float valor = this.getValor();
+        Float valor_desconto = valor * (desconto / 100);
+        valor = valor - valor_desconto;
+        return setValor(valor);
     };
 
     public void setSom(String som){

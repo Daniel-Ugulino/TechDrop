@@ -1,5 +1,7 @@
 package domain;
 
+import execptions.PedidoException;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -12,7 +14,18 @@ public class Pedido {
     private List<Produto> produtos;
     private Cliente cliente;
 
-    public Pedido(){
+    public Pedido(Cliente cliente, List<Produto> produtos) throws PedidoException {
+
+        if(cliente == null) {
+            throw new PedidoException("Não existe cliente associado ao pedido!");
+        }
+
+        if(produtos == null) {
+            throw new PedidoException("Não existe nenhum produto associado ao pedido!");
+        }
+
+        this.cliente = cliente;
+        this.produtos = produtos;
         this.date = LocalDateTime.now();
     }
 
@@ -25,21 +38,28 @@ public class Pedido {
         );
     }
 
-    public void imprimirPedido() {
+    public String imprimirPedido() {
         String relatorio_produto = "";
         for(Produto produto : produtos){
             relatorio_produto += produto;
         }
-        System.out.printf("%s\nProdutos: \n%s",
-                this,
-                relatorio_produto
-        );
+        return this+"\nProdutos\n"+ relatorio_produto;
     }
     public void calcularValorTotal(){
-        // TODO: 06/12/2022 fazer calculo do valor de todos os produtos
         for(Produto produto : produtos){
             this.valor_total += produto.getValor();
         }
+    }
+
+    public String obterLinha() {
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("MM/yyyy");
+
+        return this.getData().format(formato)+";"+
+                this.getDescricao()+";"+
+                this.getPagamento()+";"+
+                this.getCliente()+";"+
+                this.getProdutos().size()+";"+
+                this.getValorTotal() + "\r\n";
     }
 
     public void setProdutos(List<Produto> produtos) {
@@ -49,12 +69,14 @@ public class Pedido {
     public void setCliente(Cliente cliente){this.cliente = cliente;}
     public void setDescricao(String descricao){this.descricao = descricao;}
 
-    public Float getValoTotal(){return this.valor_total;}
+    public Float getValorTotal(){return this.valor_total;}
     public String getDescricao(){return this.descricao;}
     public String getPagamento(){return this.pagamento;}
     public Cliente getCliente(){return this.cliente;}
     public List<Produto> getProdutos() {
         return produtos;
     }
-
+    public LocalDateTime getData() {
+        return date;
+    }
 }
