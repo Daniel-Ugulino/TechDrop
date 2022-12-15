@@ -116,7 +116,7 @@ public class FileTest {
                     linha = leitura.readLine();
                 }
 
-                escrita.write(pedido.imprimirPedido());
+                escrita.write(pedido.obterLinha());
 
                 escrita.close();
                 leitura.close();

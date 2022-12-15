@@ -45,10 +45,11 @@ public class Pedido {
         }
         return this+"\nProdutos\n"+ relatorio_produto;
     }
-    public void calcularValorTotal(){
+    public float calcularValorTotal(){
         for(Produto produto : produtos){
             this.valor_total += produto.getValor();
         }
+        return this.valor_total;
     }
 
     public String obterLinha() {
@@ -57,9 +58,9 @@ public class Pedido {
         return this.getData().format(formato)+";"+
                 this.getDescricao()+";"+
                 this.getPagamento()+";"+
-                this.getCliente()+";"+
+                this.getCliente().getNome()+";"+
                 this.getProdutos().size()+";"+
-                this.getValorTotal() + "\r\n";
+                this.calcularValorTotal() + "\r\n";
     }
 
     public void setProdutos(List<Produto> produtos) {
